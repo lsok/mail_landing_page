@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LSOK.NET Studio · 领思科技 | 专业建站与软件服务 · 助力中国外贸企业</title>
+  <meta name="description" content="LSOK.NET（领思科技）专业为中国外贸企业提供WordPress品牌独立站建站、Odoo业务系统开发、n8n AI自动化工作流及SEO/GEO优化服务。" />
+  
+  <!-- 引入 Google Fonts Inter 搭配中文字体 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <!-- 引入 Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#0b2b4a',      // 邮件主色：深海蓝
+              hover: '#123d63',     // 悬停深蓝
+              accent: '#5fb0e8',    // 邮件Logo点缀：科技蓝
+              light: '#f8fafd',     // 卡片浅灰蓝背景
+              bg: '#f5f7fa',        // 页面柔和浅灰背景
+              text: '#1e2b3c',      // 深灰主标题
+              muted: '#3a4b5c',     // 柔和正文灰
+            }
+          },
+          fontFamily: {
+            sans: ['"Inter"', '"PingFang SC"', '"Microsoft YaHei"', '"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
+          },
+          boxShadow: {
+            'soft': '0 4px 20px -2px rgba(11, 43, 74, 0.06)',
+            'card': '0 10px 30px -5px rgba(11, 43, 74, 0.08)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* 自定义微交互与细节样式 */
+    body {
+      background-color: #f5f7fa;
+      color: #1e2b3c;
+      font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    }
+
+    /* 首屏 Banner 在线高清背景图与深海蓝半透明渐变叠加 */
+    .hero-banner {
+      background-image: 
+        linear-gradient(135deg, rgba(11, 43, 74, 0.93) 0%, rgba(18, 61, 99, 0.86) 55%, rgba(11, 43, 74, 0.90) 100%),
+        url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    /* 细腻网格纹理装饰 */
+    .bg-grid-pattern {
+      background-image: radial-gradient(rgba(95, 176, 232, 0.15) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    /* 卡片左侧边框微动效 */
+    .service-card {
+      transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .service-card:hover {
+      transform: translateY(-4px);
+    }
+
+    /* 自定义多选胶囊样式 */
+    .service-checkbox:checked + .service-pill {
+      background-color: #0b2b4a;
+      color: #ffffff;
+      border-color: #0b2b4a;
+      box-shadow: 0 4px 12px rgba(11, 43, 74, 0.2);
+    }
+    .service-checkbox:checked + .service-pill .check-icon {
+      opacity: 1;
+      transform: scale(1);
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-brand-accent selection:text-brand-dark overflow-x-hidden">
+
+  <!-- ==================== 顶部响应式导航栏 ==================== -->
+  <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-brand-dark/95 backdrop-blur-md border-b border-white/10">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20">
+        <!-- Brand Logo（延续邮件标识设计） -->
+        <a href="#" class="flex items-center gap-2.5 group focus:outline-none">
+          <div class="w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center group-hover:border-brand-accent/60 transition-colors">
+            <svg class="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+            </svg>
+          </div>
+          <span class="text-white text-xl sm:text-2xl font-semibold tracking-wide">
+            LSOK.<span class="text-brand-accent font-light">NET</span> <span class="text-sm sm:text-base font-normal text-white/80">Studio</span>
+          </span>
+        </a>
+
+        <!-- 桌面端导航链接 -->
+        <nav class="hidden md:flex items-center space-x-8">
+          <a href="#services" class="text-sm font-medium text-white/85 hover:text-brand-accent transition-colors">核心服务</a>
+          <a href="#advantages" class="text-sm font-medium text-white/85 hover:text-brand-accent transition-colors">为什么选择我们</a>
+          <a href="#process" class="text-sm font-medium text-white/85 hover:text-brand-accent transition-colors">合作流程</a>
+          <a href="#contact" class="text-sm font-medium text-white/85 hover:text-brand-accent transition-colors">联系咨询</a>
+        </nav>
+
+        <!-- 桌面端右侧快捷按钮 -->
+        <div class="hidden md:flex items-center gap-3">
+          <a href="#contact" class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-medium text-brand-dark bg-brand-accent hover:bg-white rounded-full transition-all shadow-sm">
+            免费方案咨询
+          </a>
+        </div>
+
+        <!-- 移动端汉堡菜单按钮 -->
+        <button id="mobile-menu-btn" type="button" aria-label="打开菜单" class="md:hidden p-2.5 rounded-lg text-white/85 hover:text-white hover:bg-white/10 focus:outline-none transition-colors">
+          <svg id="icon-menu" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg id="icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- 移动端折叠下拉导航 -->
+    <div id="mobile-menu" class="hidden md:hidden bg-brand-dark border-t border-white/10 px-4 pt-3 pb-6 space-y-2 shadow-xl">
+      <a href="#services" class="mobile-nav-link block px-4 py-3 rounded-xl text-base font-medium text-white/90 hover:bg-white/10 hover:text-brand-accent">核心服务</a>
+      <a href="#advantages" class="mobile-nav-link block px-4 py-3 rounded-xl text-base font-medium text-white/90 hover:bg-white/10 hover:text-brand-accent">为什么选择我们</a>
+      <a href="#process" class="mobile-nav-link block px-4 py-3 rounded-xl text-base font-medium text-white/90 hover:bg-white/10 hover:text-brand-accent">合作流程</a>
+      <a href="#contact" class="mobile-nav-link block px-4 py-3 rounded-xl text-base font-medium text-white/90 hover:bg-white/10 hover:text-brand-accent">联系咨询</a>
+      <div class="pt-2 px-1">
+        <a href="#contact" class="mobile-nav-link block w-full text-center py-3 px-5 rounded-full bg-brand-accent text-brand-dark font-semibold text-base shadow-md">
+          聊聊您的需求 →
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== 1. Hero Banner 首屏横幅 ==================== -->
+  <section class="hero-banner relative pt-28 pb-16 sm:pt-36 sm:pb-24 lg:pt-40 lg:pb-28 text-white overflow-hidden">
+    <!-- 背景点阵装饰 -->
+    <div class="absolute inset-0 bg-grid-pattern pointer-events-none opacity-60"></div>
+    
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl">
+        <!-- 顶部定位标签 -->
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-sm text-xs sm:text-sm text-brand-accent font-medium mb-6">
+          <span class="w-2 h-2 rounded-full bg-brand-accent animate-pulse"></span>
+          <span>专注中国外贸企业数字化 · 远程敏捷服务全球</span>
+        </div>
+
+        <!-- 主标题 -->
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight sm:leading-[1.22] text-white mb-6">
+          赋能中国外贸企业，<br class="hidden sm:inline" />
+          打造<span class="text-brand-accent">高转化全球数字化引擎</span>
+        </h1>
+
+        <!-- 副标题 -->
+        <p class="text-base sm:text-lg lg:text-xl text-slate-200/95 leading-relaxed font-normal mb-8 sm:mb-10 max-w-2xl">
+          我们是 <strong class="text-white font-semibold">LSOK.NET（领思科技）</strong>，提供从 <span class="text-white border-b border-brand-accent/60">WordPress 品牌独立站</span>、<span class="text-white border-b border-brand-accent/60">Odoo 业务系统</span> 到 <span class="text-white border-b border-brand-accent/60">AI 自动化工作流</span> 与 <span class="text-white border-b border-brand-accent/60">SEO / GEO 优化</span> 的一站式技术支持，助力您高效拓展海外市场，大幅提升团队效率。
+        </p>
+
+        <!-- CTA 行动按钮组 -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+          <a href="#contact" class="inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-brand-dark bg-brand-accent hover:bg-white rounded-full transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+            聊聊您的需求 →
+          </a>
+          <a href="#services" class="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-white/10 hover:bg-white/20 border border-white/25 rounded-full backdrop-blur-sm transition-all">
+            探索四大核心服务
+          </a>
+        </div>
+      </div>
+
+      <!-- 底部核心价值数据/保障栏 -->
+      <div class="mt-14 sm:mt-16 pt-8 border-t border-white/15 grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 rounded-xl bg-brand-accent/15 border border-brand-accent/30 flex items-center justify-center shrink-0 text-brand-accent">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div>
+            <div class="text-base sm:text-lg font-bold text-white">100% 业务定制</div>
+            <div class="text-xs sm:text-sm text-slate-300 mt-0.5">贴合实际外贸场景与预算</div>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 rounded-xl bg-brand-accent/15 border border-brand-accent/30 flex items-center justify-center shrink-0 text-brand-accent">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <div>
+            <div class="text-base sm:text-lg font-bold text-white">AI 驱动降本增效</div>
+            <div class="text-xs sm:text-sm text-slate-300 mt-0.5">n8n 自动化释放重复人力</div>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 rounded-xl bg-brand-accent/15 border border-brand-accent/30 flex items-center justify-center shrink-0 text-brand-accent">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+          <div>
+            <div class="text-base sm:text-lg font-bold text-white">SEO + GEO 双引擎</div>
+            <div class="text-xs sm:text-sm text-slate-300 mt-0.5">抢占 Google 与 AI 搜索流量</div>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 rounded-xl bg-brand-accent/15 border border-brand-accent/30 flex items-center justify-center shrink-0 text-brand-accent">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </div>
+          <div>
+            <div class="text-base sm:text-lg font-bold text-white">全栈一站式交付</div>
+            <div class="text-xs sm:text-sm text-slate-300 mt-0.5">建站、ERP 到获客无缝协同</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 2. 核心服务版块（4大核心业务） ==================== -->
+  <section id="services" class="py-16 sm:py-24 bg-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- 版块标题 -->
+      <div class="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
+        <span class="inline-block px-3.5 py-1 rounded-full bg-brand-dark/5 text-brand-dark text-xs sm:text-sm font-semibold tracking-wider uppercase mb-3">
+          CORE SERVICES
+        </span>
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-brand-text tracking-tight mb-4">
+          全方位外贸数字化解决方案
+        </h2>
+        <p class="text-base sm:text-lg text-brand-muted leading-relaxed">
+          直击出海获客难、内部系统割裂与人力成本高痛点，从门户展示到内部管理实现全链路升级。
+        </p>
+      </div>
+
+      <!-- 2x2 响应式服务卡片网格（保留邮件左侧深蓝边框基因） -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+        
+        <!-- 服务卡片 1: 品牌独立站建站 -->
+        <div class="service-card bg-brand-light rounded-2xl p-6 sm:p-8 border border-slate-200/80 border-l-4 border-l-brand-dark shadow-soft hover:shadow-card flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-5">
+              <div class="flex items-center gap-3.5">
+                <span class="w-12 h-12 rounded-xl bg-brand-dark text-white flex items-center justify-center text-2xl shadow-sm">
+                  🌐
+                </span>
+                <div>
+                  <h3 class="text-xl font-bold text-brand-dark">品牌独立站建站</h3>
+                  <span class="text-xs font-medium text-brand-muted">WordPress 深度定制 · 高转化出海门户</span>
+                </div>
+              </div>
+            </div>
+
+            <p class="text-sm sm:text-base text-brand-muted leading-relaxed mb-6">
+              WordPress 建站 · 速度极致提升 · 疑难故障解决 · SEO/GEO 底层架构 · 插件定制开发。为您打造符合海外买家审美、全球秒开且值得信赖的高转化企业官网与 B2B 询盘站。
+            </p>
+
+            <!-- 核心子项标签 -->
+            <div class="flex flex-wrap gap-2 mb-6">
+              <span class="px-3 py-1 rounded-lg bg-white text-brand-dark text-xs font-medium border border-slate-200/80">WordPress 定制开发</span>
+              <span class="px-3 py-1 rounded-lg bg-white text-brand-dark text-xs font-medium border border-slate-200/80">Core Web Vitals 提速</span>
+              <span class="px-3 py-1 rounded-lg bg-white text-brand-dark text-xs font-medium border border-slate-200/80">安全加固与故障修复</span>
+              <span class="px-3 py-1 rounded-lg bg-white text-brand-dark text-xs font-medium border border-slate-200/80">专属功能插件开发</span>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-slate-200/70 flex items-center justify-between">
+            <span class="text-xs text-slate-500">适用：外贸工厂、品牌出海、B2B 贸易商</span>
+            <button type="button" onclick="selectServiceAndScroll('品牌独立站建站')" class="text-sm font-semibold text-brand-dark hover:text-brand-accent inline-flex items-center gap-1 transition-colors">
+              咨询建站方案 <span>→</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 服务卡片 2: 业务系统与 Odoo -->
+        <div class="service-card bg-brand-light rounded-2xl p-6 sm:p-8 border border-slate-200/80 border-l-4 border-l-brand-dark shadow-soft hover:shadow-card flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-5">
+              <div class="flex items-center gap-3.5">
+                <span class="w-12 h-12 rounded-xl bg-brand-dark text-white flex items-center justify-center text-2xl shadow-sm">
+                  ⚙️
+                </span>
+                <div>
+                  <h3 class="text-xl font-bold text-brand-dark">业务系统与 Odoo</h3>
+                  <span class="text-xs font-medium text-brand-muted">ERP / CRM 一体化 · 流程自动化</span>
+                </div>
+              </div>
+            </div>
+
+            <p class="text-sm sm:text-base text-brand-muted leading-relaxed mb-6">
+              Odoo 部署与二次定制开发 · 进销存 / 采购 / CRM 深度集成 · 业务审批自动化。打破部门间的数据孤岛，让外贸团队协作、客户跟进、报价单据与供应链订单管理井然有序。
+            </p>
+
+            <!-- 核心子项标签 -->
+            <div class="flex flex-wrap gap-2 mb-6">
+              <span class="px-3 py-1 rounded-lg bg-white text-brand-dark text-xs font-medium border border-slate-200/80">Odoo 私有部署与二开</span>
+              <span class="px-3 py-1 rounded-lg bg-white text-brand-dark text-xs font-medium border border-slate-200/80">外贸进销存与供应链</span>
+              <span class="px-3 py-1 rounded-lg bg-white text-brand-dark text-xs font-medium border border-slate-200/80">CRM 客户全生命周期</span>
+              <span class="px-3 py-1 rounded-lg bg-white text-brand-dark text-xs font-medium border border-slate-200/80">网站与 ERP 数据打通</span>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-slate-200/70 flex items-center justify-between">
+            <span class="text-xs text-slate-500">适用：多 SKU 管理、跨部门协同、工贸一体</span>
+            <button type="button" onclick="selectServiceAndScroll('业务系统与Odoo')" class="text-sm font-semibold text-brand-dark hover:text-brand-accent inline-flex items-center gap-1 transition-colors">
+              咨询系统方案 <span>→</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 服务卡片 3: AI 自动化工作流 -->
+        <div class="service-card bg-brand-light rounded-2xl p-6 sm:p-8 border border-slate-200/80 border-l-4 border-l-brand-dark shadow-soft hover:shadow-card flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-5">
+              <div class="flex items-center gap-3.5">
+                <span class="w-12 h-12 rounded-xl bg-brand-dark text-white flex items-center justify-center text-2xl shadow-sm">
+                  🤖
+                </span>
+                <div>
+                  <h3 class="text-xl font-bold text-brand-dark">AI 自动化工作流</h3>
+                  <span class="text-xs font-medium text-brand-muted">n8n 自动化平台 · 智能体降本增效</span>
+                </div>
+              </div>
+            </div>
+
+            <p class="text-sm sm:text-base text-brand-muted leading-relaxed mb-6">
+              n8n 自动化平台私有化部署 · 自动化网站与社媒内容推广 · 海外目标客户智能挖掘 · 7×24h 多语言智能客服 · 业务数据分析报表，把业务员从繁琐重复劳动中解放出来。
+            </p>
+
+            <!-- 核心子项标签 -->
+            <div class="flex flex-wrap gap-2 mb-6">
+              <span class="px-3 py-1 rounded-lg bg-white text-brand-dark text-xs font-medium border border-slate-200/80">n8n 工作流部署</span>
+              <span class="px-3 py-1 rounded-lg bg-white text-brand-dark text-xs font-medium border border-slate-200/80">社媒与博客自动发布</span>
+              <span class="px-3 py-1 rounded-lg bg-white text-brand-dark text-xs font-medium border border-slate-200/80">AI 潜客线索挖掘</span>
+              <span class="px-3 py-1 rounded-lg bg-white text-brand-dark text-xs font-medium border border-slate-200/80">7×24h 智能客服助手</span>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-slate-200/70 flex items-center justify-between">
+            <span class="text-xs text-slate-500">适用：人手精简团队、高频内容营销、降本增效</span>
+            <button type="button" onclick="selectServiceAndScroll('AI自动化工作流')" class="text-sm font-semibold text-brand-dark hover:text-brand-accent inline-flex items-center gap-1 transition-colors">
+              咨询 AI 落地 <span>→</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 服务卡片 4: SEO 与 GEO 优化 -->
+        <div class="service-card bg-brand-light rounded-2xl p-6 sm:p-8 border border-slate-200/80 border-l-4 border-l-brand-dark shadow-soft hover:shadow-card flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-5">
+              <div class="flex items-center gap-3.5">
+                <span class="w-12 h-12 rounded-xl bg-brand-dark text-white flex items-center justify-center text-2xl shadow-sm">
+                  🚀
+                </span>
+                <div>
+                  <h3 class="text-xl font-bold text-brand-dark">SEO 与 GEO 优化</h3>
+                  <span class="text-xs font-medium text-brand-muted">搜索引擎 + AI 生成式引擎双排名</span>
+                </div>
+              </div>
+            </div>
+
+            <p class="text-sm sm:text-base text-brand-muted leading-relaxed mb-6">
+              传统搜索引擎（Google）与新一代 AI 搜索（ChatGPT / Perplexity / Gemini GEO）双引擎排名提升 · 精准采购关键词分析 · 多平台品牌曝光覆盖 · 流量与询盘转化全链路跟踪。
+            </p>
+
+            <!-- 核心子项标签 -->
+            <div class="flex flex-wrap gap-2 mb-6">
+              <span class="px-3 py-1 rounded-lg bg-white text-brand-dark text-xs font-medium border border-slate-200/80">Google 技术 SEO</span>
+              <span class="px-3 py-1 rounded-lg bg-white text-brand-dark text-xs font-medium border border-slate-200/80">AI 搜索 GEO 优化</span>
+              <span class="px-3 py-1 rounded-lg bg-white text-brand-dark text-xs font-medium border border-slate-200/80">高意图关键词矩阵</span>
+              <span class="px-3 py-1 rounded-lg bg-white text-brand-dark text-xs font-medium border border-slate-200/80">GA4 / GSC 转化追踪</span>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-slate-200/70 flex items-center justify-between">
+            <span class="text-xs text-slate-500">适用：降低广告依赖、获取长期自然精准询盘</span>
+            <button type="button" onclick="selectServiceAndScroll('SEO与GEO优化')" class="text-sm font-semibold text-brand-dark hover:text-brand-accent inline-flex items-center gap-1 transition-colors">
+              咨询获客增长 <span>→</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 3. 为什么选择 LSOK.NET（核心优势） ==================== -->
+  <section id="advantages" class="py-16 sm:py-24 bg-brand-bg border-y border-slate-200/70">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
+        <span class="inline-block px-3.5 py-1 rounded-full bg-brand-dark/5 text-brand-dark text-xs sm:text-sm font-semibold tracking-wider uppercase mb-3">
+          WHY LSOK.NET
+        </span>
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-brand-text tracking-tight mb-4">
+          为什么外贸企业选择领思科技？
+        </h2>
+        <p class="text-base sm:text-lg text-brand-muted leading-relaxed">
+          我们不只写代码，更关注技术方案能否真正为您带来海外询盘与运营效率的提升。
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- 优势 1 -->
+        <div class="bg-white rounded-2xl p-6 shadow-soft border border-slate-100 hover:border-brand-accent/50 transition-all">
+          <div class="w-12 h-12 rounded-xl bg-brand-dark/5 text-brand-dark flex items-center justify-center mb-5">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-brand-text mb-2.5">懂外贸更懂技术</h3>
+          <p class="text-sm text-brand-muted leading-relaxed">
+            深耕外贸出海业务场景，深刻理解海外采购商浏览习惯与 B2B 询盘转化逻辑，拒绝脱离业务本质的纯技术堆砌。
+          </p>
+        </div>
+
+        <!-- 优势 2 -->
+        <div class="bg-white rounded-2xl p-6 shadow-soft border border-slate-100 hover:border-brand-accent/50 transition-all">
+          <div class="w-12 h-12 rounded-xl bg-brand-dark/5 text-brand-dark flex items-center justify-center mb-5">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-brand-text mb-2.5">AI + 自动化前沿落地</h3>
+          <p class="text-sm text-brand-muted leading-relaxed">
+            紧跟 AI 与 GEO 搜索趋势，将 n8n 自动化工作流与大模型深度融入日常社媒运营、客户开发与网站维护中。
+          </p>
+        </div>
+
+        <!-- 优势 3 -->
+        <div class="bg-white rounded-2xl p-6 shadow-soft border border-slate-100 hover:border-brand-accent/50 transition-all">
+          <div class="w-12 h-12 rounded-xl bg-brand-dark/5 text-brand-dark flex items-center justify-center mb-5">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-brand-text mb-2.5">高性价比与预算可控</h3>
+          <p class="text-sm text-brand-muted leading-relaxed">
+            善用 WordPress、Odoo 与 n8n 等成熟开源生态进行定制，避免高昂年费软件锁定，灵活匹配不同阶段的预算。
+          </p>
+        </div>
+
+        <!-- 优势 4 -->
+        <div class="bg-white rounded-2xl p-6 shadow-soft border border-slate-100 hover:border-brand-accent/50 transition-all">
+          <div class="w-12 h-12 rounded-xl bg-brand-dark/5 text-brand-dark flex items-center justify-center mb-5">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-brand-text mb-2.5">一站式全栈交付</h3>
+          <p class="text-sm text-brand-muted leading-relaxed">
+            无需同时对接建站公司、ERP 实施商和 SEO 代理，一个技术团队打通前端获客与后端管理，沟通成本降到最低。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 4. 敏捷合作流程（4步启动） ==================== -->
+  <section id="process" class="py-16 sm:py-24 bg-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
+        <span class="inline-block px-3.5 py-1 rounded-full bg-brand-dark/5 text-brand-dark text-xs sm:text-sm font-semibold tracking-wider uppercase mb-3">
+          HOW WE WORK
+        </span>
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-brand-text tracking-tight mb-4">
+          透明高效的四步合作流程
+        </h2>
+        <p class="text-base sm:text-lg text-brand-muted leading-relaxed">
+          远程敏捷协同，每个节点清晰可见，确保项目按期高质量落地。
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 relative">
+        <!-- Step 01 -->
+        <div class="relative bg-brand-light rounded-2xl p-6 sm:p-7 border border-slate-200/80">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-3xl font-extrabold text-brand-accent/80 font-mono">01</span>
+            <span class="px-2.5 py-0.5 rounded-full bg-brand-dark/10 text-brand-dark text-xs font-medium">免费诊断</span>
+          </div>
+          <h3 class="text-lg font-bold text-brand-dark mb-2">需求梳理与业务诊断</h3>
+          <p class="text-sm text-brand-muted leading-relaxed">
+            一对一线上沟通，深入了解您的产品线、海外目标市场及当前在网站、系统或获客上的卡点。
+          </p>
+        </div>
+
+        <!-- Step 02 -->
+        <div class="relative bg-brand-light rounded-2xl p-6 sm:p-7 border border-slate-200/80">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-3xl font-extrabold text-brand-accent/80 font-mono">02</span>
+            <span class="px-2.5 py-0.5 rounded-full bg-brand-dark/10 text-brand-dark text-xs font-medium">透明评估</span>
+          </div>
+          <h3 class="text-lg font-bold text-brand-dark mb-2">定制方案与预算评估</h3>
+          <p class="text-sm text-brand-muted leading-relaxed">
+            输出清晰的技术架构建议、功能清单与分阶段排期，提供匹配您预算的高性价比实施报价。
+          </p>
+        </div>
+
+        <!-- Step 03 -->
+        <div class="relative bg-brand-light rounded-2xl p-6 sm:p-7 border border-slate-200/80">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-3xl font-extrabold text-brand-accent/80 font-mono">03</span>
+            <span class="px-2.5 py-0.5 rounded-full bg-brand-dark/10 text-brand-dark text-xs font-medium">敏捷交付</span>
+          </div>
+          <h3 class="text-lg font-bold text-brand-dark mb-2">敏捷开发与阶段验收</h3>
+          <p class="text-sm text-brand-muted leading-relaxed">
+            部署测试环境实时同步进度，UI 视觉、功能逻辑与数据接口分阶段确认，拒绝“盲盒式”外包。
+          </p>
+        </div>
+
+        <!-- Step 04 -->
+        <div class="relative bg-brand-light rounded-2xl p-6 sm:p-7 border border-slate-200/80">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-3xl font-extrabold text-brand-accent/80 font-mono">04</span>
+            <span class="px-2.5 py-0.5 rounded-full bg-brand-dark/10 text-brand-dark text-xs font-medium">长期陪跑</span>
+          </div>
+          <h3 class="text-lg font-bold text-brand-dark mb-2">持续运维与增长赋能</h3>
+          <p class="text-sm text-brand-muted leading-relaxed">
+            提供操作文档与团队使用培训，保障系统稳定运行，并根据业务增长持续迭代 AI 与 SEO 策略。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 5. 互动联系与需求咨询版块 ==================== -->
+  <section id="contact" class="py-16 sm:py-24 bg-brand-dark text-white relative overflow-hidden">
+    <div class="absolute inset-0 bg-grid-pattern opacity-35 pointer-events-none"></div>
+    
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+        
+        <!-- 左侧：引导文案与即时联系方式 -->
+        <div class="lg:col-span-5 space-y-8">
+          <div>
+            <span class="inline-block px-3.5 py-1 rounded-full bg-white/10 text-brand-accent text-xs sm:text-sm font-semibold tracking-wider uppercase mb-3">
+              GET IN TOUCH
+            </span>
+            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight mb-4 leading-snug">
+              聊聊您的需求，<br />开启外贸数字化升级
+            </h2>
+            <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
+              如果您正在考虑 AI 自动化、独立站改版、或 Odoo 业务软件问题，欢迎随时联系我们。我们可根据您的实际业务情况给出免费诊断建议，协助您梳理思路、分析需求，找到最适合您预算的落地方法。
+            </p>
+          </div>
+
+          <!-- 直接联系方式卡片（与邮件页脚一致，增加交互体验） -->
+          <div class="space-y-3.5">
+            <!-- WhatsApp -->
+            <a href="https://wa.me/8613722743108" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/15 transition-all group">
+              <div class="flex items-center gap-3.5">
+                <div class="w-11 h-11 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="text-xs text-slate-400">WhatsApp 即时沟通</div>
+                  <div class="text-base font-semibold text-white group-hover:text-brand-accent transition-colors">+86 137 2274 3108</div>
+                </div>
+              </div>
+              <span class="text-xs px-3 py-1.5 rounded-full bg-white/10 text-white/90 group-hover:bg-brand-accent group-hover:text-brand-dark transition-colors">发起对话 →</span>
+            </a>
+
+            <!-- Telegram -->
+            <a href="https://t.me/lsoknet" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/15 transition-all group">
+              <div class="flex items-center gap-3.5">
+                <div class="w-11 h-11 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center shrink-0">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="text-xs text-slate-400">Telegram 联系</div>
+                  <div class="text-base font-semibold text-white group-hover:text-brand-accent transition-colors">@lsoknet</div>
+                </div>
+              </div>
+              <span class="text-xs px-3 py-1.5 rounded-full bg-white/10 text-white/90 group-hover:bg-brand-accent group-hover:text-brand-dark transition-colors">打开 TG →</span>
+            </a>
+
+            <!-- Email（支持点击复制与邮件客户端打开） -->
+            <div class="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/15">
+              <div class="flex items-center gap-3.5">
+                <div class="w-11 h-11 rounded-xl bg-brand-accent/20 text-brand-accent flex items-center justify-center shrink-0">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <div>
+                  <div class="text-xs text-slate-400">商务与技术咨询邮箱</div>
+                  <a href="mailto:help@lsok.net?subject=建站与软件开发咨询" class="text-base font-semibold text-white hover:text-brand-accent transition-colors">help@lsok.net</a>
+                </div>
+              </div>
+              <button type="button" onclick="copyEmail()" class="text-xs px-3 py-1.5 rounded-full bg-white/10 hover:bg-brand-accent hover:text-brand-dark text-white/90 transition-colors cursor-pointer">
+                复制邮箱
+              </button>
+            </div>
+          </div>
+
+          <div class="pt-2 text-xs text-slate-400 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span>工作时间：周一至周六 09:00 - 21:00（北京时间）· 期待您的回音！</span>
+          </div>
+        </div>
+
+        <!-- 右侧：在线需求提交表单卡片 -->
+        <div class="lg:col-span-7">
+          <div class="bg-white text-brand-text rounded-2xl p-6 sm:p-8 lg:p-10 shadow-2xl">
+            <div class="mb-6">
+              <h3 class="text-xl sm:text-2xl font-bold text-brand-dark">在线需求评估单</h3>
+              <p class="text-sm text-brand-muted mt-1">填写以下信息，快速生成定制咨询摘要或一键发送至我们的技术顾问。</p>
+            </div>
+
+            <form id="consult-form" class="space-y-5">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label for="client-name" class="block text-sm font-medium text-brand-text mb-1.5">您的称呼 <span class="text-rose-500">*</span></label>
+                  <input type="text" id="client-name" required placeholder="例如：张先生 / Linda" class="w-full px-4 py-3 rounded-xl bg-brand-light border border-slate-200 text-sm text-brand-text placeholder-slate-400 focus:outline-none focus:border-brand-dark focus:ring-2 focus:ring-brand-dark/10 transition-all" />
+                </div>
+                <div>
+                  <label for="client-company" class="block text-sm font-medium text-brand-text mb-1.5">公司名称 / 现有网址</label>
+                  <input type="text" id="client-company" placeholder="例如：领思外贸 / example.com" class="w-full px-4 py-3 rounded-xl bg-brand-light border border-slate-200 text-sm text-brand-text placeholder-slate-400 focus:outline-none focus:border-brand-dark focus:ring-2 focus:ring-brand-dark/10 transition-all" />
+                </div>
+              </div>
+
+              <div>
+                <label for="client-contact" class="block text-sm font-medium text-brand-text mb-1.5">联系方式（微信 / 手机 / 邮箱） <span class="text-rose-500">*</span></label>
+                <input type="text" id="client-contact" required placeholder="方便我们与您沟通方案细节" class="w-full px-4 py-3 rounded-xl bg-brand-light border border-slate-200 text-sm text-brand-text placeholder-slate-400 focus:outline-none focus:border-brand-dark focus:ring-2 focus:ring-brand-dark/10 transition-all" />
+              </div>
+
+              <!-- 感兴趣的服务（多选标签） -->
+              <div>
+                <span class="block text-sm font-medium text-brand-text mb-2">感兴趣的服务方向（可多选）</span>
+                <div class="grid grid-cols-2 gap-2.5">
+                  <label class="cursor-pointer select-none">
+                    <input type="checkbox" name="services" value="品牌独立站建站" class="service-checkbox sr-only" />
+                    <div class="service-pill flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-brand-light border border-slate-200 text-xs sm:text-sm font-medium text-brand-muted hover:border-brand-dark/40 transition-all">
+                      <span>🌐 品牌独立站</span>
+                      <span class="check-icon opacity-0 transform scale-75 transition-all text-brand-accent font-bold">✓</span>
+                    </div>
+                  </label>
+
+                  <label class="cursor-pointer select-none">
+                    <input type="checkbox" name="services" value="业务系统与Odoo" class="service-checkbox sr-only" />
+                    <div class="service-pill flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-brand-light border border-slate-200 text-xs sm:text-sm font-medium text-brand-muted hover:border-brand-dark/40 transition-all">
+                      <span>⚙️ Odoo 业务系统</span>
+                      <span class="check-icon opacity-0 transform scale-75 transition-all text-brand-accent font-bold">✓</span>
+                    </div>
+                  </label>
+
+                  <label class="cursor-pointer select-none">
+                    <input type="checkbox" name="services" value="AI自动化工作流" class="service-checkbox sr-only" />
+                    <div class="service-pill flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-brand-light border border-slate-200 text-xs sm:text-sm font-medium text-brand-muted hover:border-brand-dark/40 transition-all">
+                      <span>🤖 AI 自动化 (n8n)</span>
+                      <span class="check-icon opacity-0 transform scale-75 transition-all text-brand-accent font-bold">✓</span>
+                    </div>
+                  </label>
+
+                  <label class="cursor-pointer select-none">
+                    <input type="checkbox" name="services" value="SEO与GEO优化" class="service-checkbox sr-only" />
+                    <div class="service-pill flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-brand-light border border-slate-200 text-xs sm:text-sm font-medium text-brand-muted hover:border-brand-dark/40 transition-all">
+                      <span>🚀 SEO / GEO 优化</span>
+                      <span class="check-icon opacity-0 transform scale-75 transition-all text-brand-accent font-bold">✓</span>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <div>
+                <label for="client-desc" class="block text-sm font-medium text-brand-text mb-1.5">需求简述与预算预期</label>
+                <textarea id="client-desc" rows="3" placeholder="请简单描述您的业务情况或想解决的问题（例如：需要新建英文B2B独立站，或希望用n8n自动化发布社媒与开发信）..." class="w-full px-4 py-3 rounded-xl bg-brand-light border border-slate-200 text-sm text-brand-text placeholder-slate-400 focus:outline-none focus:border-brand-dark focus:ring-2 focus:ring-brand-dark/10 transition-all resize-none"></textarea>
+              </div>
+
+              <button type="submit" class="w-full py-4 px-6 rounded-full bg-brand-dark hover:bg-brand-hover text-white font-semibold text-base shadow-md hover:shadow-lg transition-all cursor-pointer flex items-center justify-center gap-2">
+                <span>提交需求并生成咨询方案</span>
+                <span>→</span>
+              </button>
+            </form>
+
+            <!-- 表单提交后的交互反馈区 -->
+            <div id="form-result" class="hidden mt-6 p-5 rounded-2xl bg-brand-light border border-brand-accent/40 space-y-4">
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 font-bold">✓</div>
+                <div>
+                  <h4 class="text-base font-bold text-brand-dark">需求摘要已生成！</h4>
+                  <p class="text-xs text-brand-muted mt-0.5">您可以直接通过邮件发送以下摘要，或复制后通过 WhatsApp / Telegram 发给我们：</p>
+                </div>
+              </div>
+
+              <pre id="summary-preview" class="p-3.5 rounded-xl bg-white border border-slate-200 text-xs text-brand-text whitespace-pre-wrap font-sans leading-relaxed"></pre>
+
+              <div class="flex flex-col sm:flex-row gap-2.5">
+                <a id="mailto-trigger" href="#" class="flex-1 py-2.5 px-4 rounded-xl bg-brand-dark hover:bg-brand-hover text-white text-xs sm:text-sm font-medium text-center transition-colors">
+                  ✉️ 一键唤起邮件发送
+                </a>
+                <button type="button" onclick="copySummary()" class="flex-1 py-2.5 px-4 rounded-xl bg-white hover:bg-slate-100 text-brand-dark border border-slate-300 text-xs sm:text-sm font-medium text-center transition-colors cursor-pointer">
+                  📋 复制需求摘要
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 6. 简洁页脚（Footer） ==================== -->
+  <footer class="bg-[#f1f4f9] border-t border-slate-200/90 text-brand-muted">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        <!-- 左侧品牌与定位 -->
+        <div class="text-center md:text-left">
+          <div class="text-lg font-bold text-brand-dark tracking-wide">
+            LSOK.<span class="text-brand-accent font-normal">NET</span> Studio
+          </div>
+          <p class="text-xs sm:text-sm text-brand-muted mt-1">
+            LSOK.NET（领思科技） · 网站设计 &amp; 软件开发 · 专注外贸企业数字化
+          </p>
+        </div>
+
+        <!-- 中间快捷链接 -->
+        <div class="flex flex-wrap items-center justify-center gap-6 text-xs sm:text-sm font-medium">
+          <a href="#services" class="hover:text-brand-dark transition-colors">核心服务</a>
+          <a href="#advantages" class="hover:text-brand-dark transition-colors">核心优势</a>
+          <a href="#process" class="hover:text-brand-dark transition-colors">合作流程</a>
+          <a href="#contact" class="hover:text-brand-dark transition-colors">联系我们</a>
+        </div>
+
+        <!-- 右侧直接联系 -->
+        <div class="text-center md:text-right text-xs sm:text-sm space-y-1">
+          <div>
+            <a href="https://wa.me/8613722743108" target="_blank" rel="noopener noreferrer" class="text-brand-dark font-medium hover:underline">WhatsApp</a>
+            <span class="mx-1.5 text-slate-400">·</span>
+            <a href="https://t.me/lsoknet" target="_blank" rel="noopener noreferrer" class="text-brand-dark font-medium hover:underline">Telegram</a>
+            <span class="mx-1.5 text-slate-400">·</span>
+            <a href="mailto:help@lsok.net" class="text-brand-dark font-medium hover:underline">help@lsok.net</a>
+          </div>
+          <div class="text-xs text-slate-500">中国 · 远程服务全球外贸企业</div>
+        </div>
+      </div>
+
+      <div class="mt-8 pt-6 border-t border-slate-200/80 text-center text-xs text-slate-400">
+        &copy; <span id="current-year"></span> LSOK.NET（领思科技）All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== 自定义消息提示框（替代 alert） ==================== -->
+  <div id="toast-box" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="bg-brand-dark text-white px-5 py-3.5 rounded-2xl shadow-xl border border-white/15 flex items-center gap-3 text-sm font-medium">
+      <span class="w-5 h-5 rounded-full bg-brand-accent text-brand-dark flex items-center justify-center text-xs font-bold">✓</span>
+      <span id="toast-message">操作成功</span>
+    </div>
+  </div>
+
+  <!-- ==================== 交互脚本 ==================== -->
+  <script>
+    // 自动填充当前年份
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+
+    // 移动端汉堡菜单切换逻辑
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const iconMenu = document.getElementById('icon-menu');
+    const iconClose = document.getElementById('icon-close');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+    function toggleMobileMenu() {
+      const isHidden = mobileMenu.classList.contains('hidden');
+      if (isHidden) {
+        mobileMenu.classList.remove('hidden');
+        iconMenu.classList.add('hidden');
+        iconClose.classList.remove('hidden');
+      } else {
+        mobileMenu.classList.add('hidden');
+        iconMenu.classList.remove('hidden');
+        iconClose.classList.add('hidden');
+      }
+    }
+
+    mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+    mobileNavLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (!mobileMenu.classList.contains('hidden')) {
+          toggleMobileMenu();
+        }
+      });
+    });
+
+    // 通用 Toast 提示函数（不使用 alert）
+    let toastTimer;
+    function showToast(msg) {
+      const toastBox = document.getElementById('toast-box');
+      const toastMsg = document.getElementById('toast-message');
+      toastMsg.textContent = msg;
+      toastBox.classList.remove('translate-y-20', 'opacity-0');
+      
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toastBox.classList.add('translate-y-20', 'opacity-0');
+      }, 3000);
+    }
+
+    // 兼容性文本复制函数（使用 execCommand 适配 iframe 环境）
+    function copyTextToClipboard(text, successMsg) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        showToast(successMsg);
+      } catch (err) {
+        showToast('请手动长按复制：' + text);
+      }
+      document.body.removeChild(textarea);
+    }
+
+    // 复制联系邮箱
+    function copyEmail() {
+      copyTextToClipboard('help@lsok.net', '已复制邮箱地址：help@lsok.net');
+    }
+
+    // 点击服务卡片底部链接，自动勾选对应服务并平滑滚动至咨询表单
+    function selectServiceAndScroll(serviceName) {
+      const checkboxes = document.querySelectorAll('input[name="services"]');
+      checkboxes.forEach(cb => {
+        if (cb.value === serviceName) {
+          cb.checked = true;
+        }
+      });
+      const contactSection = document.getElementById('contact');
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+      showToast('已为您勾选「' + serviceName + '」');
+    }
+
+    // 在线需求评估表单提交处理
+    const consultForm = document.getElementById('consult-form');
+    const formResult = document.getElementById('form-result');
+    const summaryPreview = document.getElementById('summary-preview');
+    const mailtoTrigger = document.getElementById('mailto-trigger');
+
+    consultForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById('client-name').value.trim();
+      const company = document.getElementById('client-company').value.trim() || '未填写';
+      const contact = document.getElementById('client-contact').value.trim();
+      const desc = document.getElementById('client-desc').value.trim() || '希望进一步沟通具体实施方案与报价。';
+
+      const selectedServices = Array.from(document.querySelectorAll('input[name="services"]:checked'))
+        .map(cb => cb.value);
+      const servicesText = selectedServices.length > 0 ? selectedServices.join('、') : '综合数字化方案咨询';
+
+      const summaryText = 
+`【LSOK.NET 业务咨询需求单】
+• 联系人：${name}
+• 公司/网址：${company}
+• 联系方式：${contact}
+• 意向服务：${servicesText}
+• 需求简述：${desc}`;
+
+      summaryPreview.textContent = summaryText;
+
+      // 生成 mailto 链接
+      const mailSubject = encodeURIComponent(`外贸数字化咨询 - ${name} (${servicesText})`);
+      const mailBody = encodeURIComponent(summaryText);
+      mailtoTrigger.href = `mailto:help@lsok.net?subject=${mailSubject}&body=${mailBody}`;
+
+      formResult.classList.remove('hidden');
+      formResult.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      showToast('咨询摘要已生成，可一键发送或复制！');
+    });
+
+    // 复制生成的咨询摘要
+    function copySummary() {
+      const text = summaryPreview.textContent;
+      copyTextToClipboard(text, '需求摘要已复制到剪贴板！');
+    }
+  </script>
+</body>
+</html>
