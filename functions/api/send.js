@@ -17,8 +17,8 @@ export async function onRequestPost(context) {
         // 注意：未在 Resend 验证自己域名时，发件人必须填 onboarding@resend.dev
         // 且收件人只能填你注册 Resend 账号时的那个邮箱
         from: 'Website Form <onboarding@resend.dev>',
-        to: ['你的收件邮箱@example.com'],
-        subject: `来自 ${name} 的网站留言`,
+        to: ['lsokweb@gmail.com'],
+        subject: `网站咨询`,
         html: `
           <p><strong>姓名：</strong>${name}</p>
           <p><strong>邮箱：</strong>${email}</p>
