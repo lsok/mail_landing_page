@@ -16,7 +16,7 @@ export async function onRequestPost(context) {
       body: JSON.stringify({
         // 注意：未在 Resend 验证自己域名时，发件人必须填 onboarding@resend.dev
         // 且收件人只能填你注册 Resend 账号时的那个邮箱
-        from: 'Website Form <help@lsok.net>',
+        from: 'LSOK.NET <help@lsok.net>',
         to: ['servicelsok@gmail.com'],
         subject: `网站咨询`,
         html: `
