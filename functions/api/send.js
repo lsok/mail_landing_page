@@ -6,6 +6,16 @@ export async function onRequestPost(context) {
     // 2. 从 Cloudflare 环境变量读取 API Key（安全，不会暴露给前端）
     const RESEND_API_KEY = context.env.RESEND_API_KEY;
 
+    const rawKey = context.env.RESEND_API_KEY;
+    const keyInfo = {
+      exists: Boolean(rawKey),
+      type: typeof rawKey,
+      length: typeof rawKey === 'string' ? rawKey.length : 0,
+      trimmedLength: typeof rawKey === 'string' ? rawKey.trim().length : 0,
+      prefix: typeof rawKey === 'string' ? rawKey.slice(0, 5) : null,
+    };
+
+
     // 3. 调用 Resend REST API 发送邮件
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
